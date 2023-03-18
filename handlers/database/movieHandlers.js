@@ -88,11 +88,41 @@ async function movieAddHandler(req, res) {
 }
 
 //DELETE
+// async function movieDeleteHandler(req, res) {
+//   try {
+//     const id = req.params.id;
+//     if (!id) {
+//       throw new Error("Invalid request parameter: id is missing");
+//     }
+//     await movieModel.findByIdAndDelete(id);
+//     let allMovies = await movieModel.find({});
+//     res.send(allMovies);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Internal server error");
+//   }
+// }
+
 async function movieDeleteHandler(req, res) {
-  const id = req.params.id;
-  await movieModel.findByIdAndDelete(id);
-  let allMovies = await movieModel.find({});
-  res.send(allMovies);
+  try {
+    const { id, user } = req.params;
+    const movie = await movieModel.findById(id);
+    if (!movie) {
+      return res.status(404).json({ error: "Movie not found" });
+    }
+
+    if (movie.users.length === 1 && movie.users[0] === user) {
+      await movieModel.findByIdAndDelete(id);
+    } else {
+      movie.users = movie.users.filter((u) => u !== user);
+      await movie.save(); // <-- assign the filtered array back to movie.users
+    }
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(`Error deleting user from movie: ${error}`);
+    return res.status(500).json({ error: "Server error" });
+  }
 }
 
 module.exports = {
