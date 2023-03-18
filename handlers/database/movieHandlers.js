@@ -27,6 +27,18 @@ async function movieListHandler(req, res) {
   res.json(movieList);
 }
 
+//GET
+//find by user and return that?
+async function movieHandler(req, res) {
+  const { user } = req.query;
+  if (!user) {
+    return res.status(400).json({ message: "no movies found" });
+  }
+
+  const movieList = await movieModel.find({ users: user });
+  res.json(movieList);
+}
+
 // ADD
 // async function movieAddHandler(req, res) {
 //   console.log(req.body);
@@ -87,6 +99,6 @@ module.exports = {
   homeHandler,
   movieListHandler,
   movieAddHandler,
-  // movieFavouritesHandler,
+  movieFavouritesHandler,
   movieDeleteHandler,
 };

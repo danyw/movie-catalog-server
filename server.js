@@ -21,10 +21,12 @@ const {
   movieListHandler,
   movieAddHandler,
   movieDeleteHandler,
+  movieFavouritesHandler,
 } = require("./handlers/database/movieHandlers");
 
 app.get("/", homeHandler);
 app.get("/movielist", movieListHandler);
+app.get("/favmovieslist", movieFavouritesHandler);
 app.post("/movielist/add", movieAddHandler);
 // app.patch("/movielist", movieFavouritesHandler);
 app.delete("/movielist/delete/:id", movieDeleteHandler);
