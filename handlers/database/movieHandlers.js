@@ -29,7 +29,7 @@ async function movieListHandler(req, res) {
 
 //GET
 //find by user and return that?
-async function movieHandler(req, res) {
+async function movieFavouritesHandler(req, res) {
   const { user } = req.query;
   if (!user) {
     return res.status(400).json({ message: "no movies found" });
