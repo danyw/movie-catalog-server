@@ -26,7 +26,7 @@ const {
 app.get("/", homeHandler);
 app.get("/movielist", movieListHandler);
 app.post("/movielist/add", movieAddHandler);
-// app.put("/movielist/:id", movieUpdateHandler);
+// app.patch("/movielist", movieFavouritesHandler);
 app.delete("/movielist/delete/:id", movieDeleteHandler);
 app.get("*", notFound);
 
